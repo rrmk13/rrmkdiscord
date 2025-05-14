@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discord連携ログイン</title>
+</head>
+<body>
+  <h1>Discord連携ログイン</h1>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="メールアドレス" required><br>
+    <input type="password" id="password" placeholder="パスワード" required><br>
+    <button type="submit">送信</button>
+  </form>
+
+  <script>
+    // フォームが送信されたときの処理
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // フォームがデフォルトで送信されないようにする
+
+      // 入力されたメールアドレスとパスワードを取得
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // サーバーにデータをPOST送信
+      fetch('http://localhost:3000/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }) // 入力されたデータを送信
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('データ送信成功:', data);
+        alert('データ送信完了');
+      })
+      .catch(error => {
+        console.error('エラー:', error);
+        alert('データ送信エラー');
+      });
+    });
+  </script>
+</body>
+</html>
